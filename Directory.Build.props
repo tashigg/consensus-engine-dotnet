@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>Nullable</WarningsAsErrors>
+
+    <!-- https://github.com/dotnet/msbuild/issues/2342 -->
+    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(CI)' != 'true'">
+    <Content CopyToOutputDirectory="PreserveNewest" Include="$(SolutionDir)/libtce_ffi.so" Condition="$([MSBuild]::IsOsPlatform('Linux'))"/>
+    <Content CopyToOutputDirectory="PreserveNewest" Include="$(SolutionDir)/tce_ffi.dll" Condition="$([MSBuild]::IsOsPlatform('Windows'))"/>
+    <Content CopyToOutputDirectory="PreserveNewest" Include="$(SolutionDir)/libtce_ffi.dylib" Condition="$([MSBuild]::IsOsPlatform('macOS'))"/>
+  </ItemGroup>
+</Project>
